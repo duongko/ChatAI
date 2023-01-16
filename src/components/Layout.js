@@ -16,7 +16,7 @@ const Layout = () => {
     const [ChatConversation, setChatConversation] = useState([{ name: "AI", text: "xin chào bạn! Tôi là DƯơng đẹp trai có thể giúp gì dc cho bạn " }])
     const [userinput, setuserinput] = useState()
     const [outputchat, setoutoutchat] = useState()
-    const [newchat, setnewchat] = useState(["NEWCHAT"])
+    const [newchat, setnewchat] = useState(["New chat"])
 
     //newchat để thêm 1 đoạn thoại khác
 
@@ -24,6 +24,13 @@ const Layout = () => {
 
     //list để lưu các hội thoại đã nói dựa vào state 'ChatConversation'
     const [listchoose, setlistchoose] = useState(0)
+
+
+
+    ////////Header
+
+
+    const [shownavbar, setshownavbar] = useState(false)
 
 
 
@@ -42,12 +49,8 @@ const Layout = () => {
 
         if (userinput !== undefined) callapi()
 
-
         handlechatUpdate(listchoose)
         setuserinput()
-
-
-
 
 
     }, [userinput, outputchat])
@@ -64,7 +67,7 @@ const Layout = () => {
             setchatuse()
 
 
-            if (newchat[listchoose] === "NEWCHAT") {
+            if (newchat[listchoose] === "New chat") {
                 let newchatss = [...newchat]
                 newchatss[listchoose] = chatuser
                 setnewchat(newchatss)
@@ -79,7 +82,7 @@ const Layout = () => {
 
 
 
-    const Apikey = "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"
+    const Apikey = "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"
 
     const callapi = async () => {
 
@@ -90,7 +93,7 @@ const Layout = () => {
         const response = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: userinput,
-            max_tokens: 1200,
+            max_tokens: 1300,
             temperature: 0.2,
         });
 
@@ -110,15 +113,13 @@ const Layout = () => {
 
     const hanldeNewchat = () => {
 
-        setnewchat(["NEWCHAT", ...newchat])
+        setnewchat(["New chat", ...newchat])
         setlistchoose(0)
         setChatConversation([{ name: "AI", text: "xin chào bạn! Tôi là DƯơng đẹp trai có thể giúp gì dc cho bạn " }])
         setuserinput()
         setlist([[{ name: "AI", text: "xin chào bạn! Tôi là DƯơng đẹp trai có thể giúp gì dc cho bạn " }], ...list])
 
-
-
-
+        setshownavbar(!shownavbar)
 
 
     }
@@ -160,6 +161,7 @@ const Layout = () => {
             setChatConversation(list[listchooseid])
 
         }
+        setshownavbar(!shownavbar)
 
 
 
@@ -198,16 +200,16 @@ const Layout = () => {
 
 
 
-    console.log("list", list)
-    console.log("list id: ", list[listchoose])
+    // console.log("list", list)
+    // console.log("list id: ", list[listchoose])
 
-    console.log("userinput: ", userinput)
+    // console.log("userinput: ", userinput)
 
-    console.log("list chooose:", listchoose)
+    // console.log("list chooose:", listchoose)
 
-    console.log("ChatConversation: ", ChatConversation)
+    // console.log("ChatConversation: ", ChatConversation)
 
-    console.log("newchat", newchat[0])
+    // console.log("newchat", newchat[0])
 
 
 
@@ -215,7 +217,7 @@ const Layout = () => {
     return (
         <>
             <div className="container">
-                <div id="sidebar">
+                <div className={`sidebar ${shownavbar == false ? '' : "active"}`} >
                     <div className='add-newchat'
                         onClick={() => { hanldeNewchat() }}
 
@@ -224,43 +226,72 @@ const Layout = () => {
 
                         <HiPlusCircle /> NEW  CHAT
                     </div>
+                    <div className='litchat-container'>
 
-                    {newchat && newchat.length > 0
+                        {newchat && newchat.length > 0
 
-                        ? newchat.map((value, index) => {
-                            // console.log("value:", value);
-                            return (
-
-
-                                <div className='litchat' key={index}
-
-                                    onClick={() => { handleChooseList(index) }}
-                                >
-                                    <BiBookBookmark />
-
-
-                                    {value}
+                            ? newchat.map((value, index) => {
+                                // console.log("value:", value);
+                                return (
 
 
 
-                                    <BiPencil onClick={() => handleUpdate(index)} /> <FiDelete onClick={() => handleDelte(index)} />
+                                    <div className='litchat' key={index}
 
-                                </div>
-                            )
-                        })
 
-                        :
-                        <>
+                                    >
+                                        <div className='tilete-chat'
 
-                        </>
+                                            onClick={() => { handleChooseList(index) }}
+                                        >
+                                            <BiBookBookmark /> {value.substring(0, 22)}
 
-                    }
+                                        </div>
+
+
+                                        <div className='newchat'>
+
+
+                                            <div className='p-1 z-10'>
+                                                <BiPencil onClick={() => handleUpdate(index)} />
+
+                                            </div>
+                                            <div className='p-1 z-10'>
+                                                <FiDelete onClick={() => handleDelte(index)} />
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                )
+                            })
+
+                            :
+                            <>
+
+                            </>
+
+                        }
+                    </div>
 
 
                 </div>
 
                 <div id="chat-window">
                     <div id="chat-header">
+
+                        <button className={`navbar-menu-btn ${shownavbar == false ? '' : "active"} `}
+
+                            onClick={() => { setshownavbar(!shownavbar) }}
+                        >
+                            <span className="one"></span>
+                            <span className="two"></span>
+                            <span className="three"></span>
+                        </button>
+
                         <h1>ChatGpt</h1>
                     </div>
                     <div id="chat-messages">

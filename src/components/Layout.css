@@ -18,13 +18,18 @@ root {
 
     position: relative;
     display: flex;
-    width: 100%
+    width: 100%;
+    height: 100%;
 }
 
+.z-10 {
+    z-index: 1000;
+}
 
-#sidebar {
+.sidebar {
     width: 18%;
-    background-color: #333;
+    --tw-bg-opacity: 1;
+    background-color: rgba(32, 33, 35, var(--tw-bg-opacity));
     color: #fff;
     position: fixed;
     top: 0;
@@ -32,32 +37,32 @@ root {
     bottom: 0;
 }
 
-#sidebar h2 {
+.sidebar h2 {
     margin: 0;
     padding: 20px;
     font-size: 18px;
     text-align: center;
 }
 
-#sidebar ul {
+.sidebar ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-#sidebar li {
+.sidebar li {
     margin: 0;
     padding: 10px 20px;
     border-bottom: 1px solid #ccc;
 }
 
-#sidebar a {
+.sidebar a {
     color: #fff;
     text-decoration: none;
     display: block;
 }
 
-#sidebar a:hover {
+.sidebar a:hover {
     background-color: #444;
 }
 
@@ -124,6 +129,7 @@ root {
     padding: 7px 10px;
     border-radius: 10px 10px 10px 0;
     margin: 40px 0;
+
 }
 
 /* Định dạng form nhập tin nhắn */
@@ -150,13 +156,13 @@ root {
 
 
 .add-newchat {
-    width: 81%;
+    width: 86%;
 
     border: 0.01px solid hsla(0, 0%, 100%, .2);
     cursor: pointer;
     border-radius: 5px;
     margin: auto;
-    margin-top: 16px;
+    margin-top: 25px;
     text-align: center;
     padding: 12px 10px;
 }
@@ -166,34 +172,203 @@ root {
 }
 
 .litchat {
-
-    width: 81%;
+    display: flex;
+    position: relative;
+    width: 86%;
     cursor: pointer;
-    border-radius: 5px;
+    font-size: 15px;
     margin: auto;
     margin-top: 22px;
     text-align: center;
     padding: 12px 10px;
+    border-radius: 4px;
+
 
 }
 
+.litchat:hover {
 
-/* màn hình điện thoại */
+    background-color: rgba(52, 53, 65, 0.541);
+}
+
+.litchat-container {
+    height: 331px;
+    overflow-y: auto;
+
+    border-bottom: 0.01px solid hsla(0, 0%, 100%, .2);
+
+}
+
+.tilete-chat {
+    width: 84%;
+    text-align: initial;
+}
+
+
+.navbar-menu-btn {
+    visibility: hidden;
+}
+
+
+::-webkit-scrollbar {
+
+    width: 5px;
+    /* background-color: rgba(52, 53, 65, 0.541); */
+
+}
+
+::-webkit-scrollbar-thumb {
+    height: 10px;
+    background-color: lightgrey;
+    border-radius: 5px;
+}
+
+.newchat {
+    position: absolute;
+    display: flex;
+    right: 2%;
+}
+
+.p-1 {
+    padding: 0.2rem;
+}
+
+
+
+
+/* màn hình điện thoại ////////////////////////////////////////////////////////////////////////////*/
 @media screen and (max-width: 768px) {
 
 
-    #sidebar {
-        display: none
+    .sidebar {
+        visibility: hidden;
+        width: 84%;
+        --tw-bg-opacity: 1;
+        background-color: rgba(32, 33, 35, var(--tw-bg-opacity));
+        color: #fff;
+        position: fixed;
+        top: 0;
+        left: -100vw;
+        bottom: 0;
+        z-index: 10;
+        height: 99%;
+        transition: 0.5s;
+
+
     }
 
-    #chat-window {
+    .sidebar.active {
+        visibility: visible;
+        transition: 0.5s;
+        transform: translateX(100vw);
 
+    }
+
+    .sidebar.ac #chat-window {
         width: 100%;
         left: 0%;
         border: none
     }
 
+    #chat-window {
+
+        width: 100%;
+        height: 100%;
+
+        left: 0;
+    }
+
     .message {
         margin-right: 5px;
     }
+
+    #chat-messages {
+        overflow-y: auto;
+        padding: 0;
+        color: #fff;
+        position: relative;
+        font-size: 0.9em;
+        width: 100%;
+        height: 81%;
+    }
+
+    #chat-mesages ::-webkit-scrollbar-thumb {
+        height: 10px;
+
+        border-radius: 5px;
+    }
+
+    /* .navbar-menu-btn {
+        display: none;
+    } */
+
+    .message.user {
+        margin-left: 10px;
+        margin-bottom: 22px;
+        width: 54%;
+    }
+
+    .navbar-menu-btn {
+        visibility: visible;
+        display: block;
+        left: 10%;
+        position: absolute;
+        top: 2%;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        width: auto;
+
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+
+    .navbar-menu-btn span {
+        background: #e0e0e0;
+        display: block;
+        height: 2px;
+        margin: 8px;
+        width: 27px;
+    }
+
+    .navbar-menu-btn .two {
+        width: 23px;
+    }
+
+    .navbar-menu-btn .three {
+        width: 17px;
+    }
+
+
+    .navbar-menu-btn.active {
+        left: 90%;
+        top: 3%;
+        transition: 0.5s;
+
+    }
+
+    .navbar-menu-btn.active .three {
+        -webkit-transform: rotate(-45deg) translateY(-14px);
+        transform: rotate(-45deg) translateY(-14px);
+        width: 25px;
+    }
+
+    .navbar-menu-btn.active .one {
+        -webkit-transform: rotate(45deg) translateY(14px);
+        transform: rotate(45deg) translateY(14px);
+    }
+
+    .navbar-menu-btn.active .two {
+        width: 0;
+    }
+
+    .litchat-container {
+        height: 450px;
+
+
+    }
+
+
+
 }
